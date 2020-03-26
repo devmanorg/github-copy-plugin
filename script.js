@@ -83,17 +83,18 @@ async function copyMarkdownSnippet(quitMode=false){
     filePath = `…${filePath.substring(startIndex)}`;
   }
 
+  let codeLinesAreSelected = Boolean(linesCode);
+
   let markdownSnippet = '';
   if (quitMode){
     markdownSnippet = (
         `<hr/>\n` +
-        `*Файл [${filePath}](${link}) :*\n`
+        `*Файл [${filePath}](${link})${codeLinesAreSelected && ':'+linesCode || ''} :*\n`
     );
   } else {
     let codeSnippet = '';
 
     // copy code
-    let codeLinesAreSelected = Boolean(linesCode);
     if (codeLinesAreSelected){
       codeSnippet = await prepareCodeSnippet();
     } else {
