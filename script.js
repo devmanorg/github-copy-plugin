@@ -13,7 +13,7 @@ function delay(ms) {
 }
 
 function handleKeyUp(e) {
-    if (e.altKey && e.keyCode == 67){ // Latin or Kirillic key C
+    if (e.altKey && e.keyCode == 67){ // Latin or Cyrillic key C
         copyMarkdownSnippet(e.shiftKey);
     }
 }
