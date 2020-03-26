@@ -89,7 +89,7 @@ async function copyMarkdownSnippet(quitMode=false){
   if (quitMode){
     markdownSnippet = (
         `<hr/>\n` +
-        `*Файл [${filePath}](${link})${codeLinesAreSelected && ':'+linesCode || ''} :*\n`
+        `*Файл [${filePath}](${link})${codeLinesAreSelected && ':'+linesCode || ''}.*\n`
     );
   } else {
     let codeSnippet = '';
