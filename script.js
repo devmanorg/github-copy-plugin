@@ -1,17 +1,3 @@
-function addJS(url){
-  var script = document.createElement('script');
-  script.type = 'text/javascript';
-  script.src = url;    
-
-  document.head.appendChild(script);
-}
-
-function delay(ms) {
-  return new Promise((resolve, reject) => {
-    setTimeout(resolve, ms);
-  });
-}
-
 function handleKeyUp(e) {
     if (e.altKey && e.keyCode == 67){ // Latin or Cyrillic key C
         copyMarkdownSnippet(e.shiftKey);
@@ -24,14 +10,14 @@ function dedent(text) {
   let indents = [];
   for (let line of lines){
     if (!line.trim()){
-        continue
+        continue;
     }
     let indentSize = line.length - line.trimLeft().length;
     indents.push(indentSize);
   }
 
   if (!indents.length){
-    indents.push(0)
+    indents.push(0);
   }
   let minIndent = Math.min(...indents);
 
@@ -61,13 +47,20 @@ function addIndentBeforeOctothorpe(text){
   return text.replace(/^/gm, ' ');  // add whitespace to every line to not broke Python code
 }
 
-async function prepareCodeSnippet(){
-  document.getElementById('js-copy-lines').dispatchEvent(new Event('click'));
+function prepareCodeSnippet(text){
+    let preparedText = trimRightEachLine(text);
+    preparedText = dedent(preparedText);
+    preparedText = removeBlankLines(preparedText);
+    preparedText = addIndentBeforeOctothorpe(preparedText);
+    return preparedText;
+}
 
-  // wait till async copy operation will be finished
-  await delay(250);
-
-  return await navigator.clipboard.readText();
+function readHighlightedLines(){
+  // Read code lines highlighted on GitHub page, return multiline string
+  const lines = document.querySelectorAll('.js-file-line-container .js-file-line.highlighted');
+  const map = Array.prototype.map;
+  const codeLines = map.call(lines, line => line.innerText);
+  return codeLines.join('\n');
 }
 
 async function copyMarkdownSnippet(quitMode=false){
@@ -83,32 +76,34 @@ async function copyMarkdownSnippet(quitMode=false){
     filePath = `…${filePath.substring(startIndex)}`;
   }
 
-  let codeLinesAreSelected = Boolean(linesCode);
+  let selection = window.getSelection().toString();
+  let codeLinesAreSelected = Boolean(linesCode) && !selection; // selection has priority
+  let reviewLink = selection && fileURL || link;
+  const positionSuffix = codeLinesAreSelected && ':'+linesCode || '';
 
   let markdownSnippet = '';
   if (quitMode){
     markdownSnippet = (
         `<hr/>\n` +
-        `*Файл [${filePath}](${link})${codeLinesAreSelected && ':'+linesCode || ''}.*\n`
+        `*Файл [${filePath}](${reviewLink})${positionSuffix}.*\n`
     );
   } else {
     let codeSnippet = '';
 
     // copy code
-    if (codeLinesAreSelected){
-      codeSnippet = await prepareCodeSnippet();
+    if (selection) {
+      codeSnippet = selection;
+    } else if (codeLinesAreSelected){
+      codeSnippet = readHighlightedLines();
     } else {
-      codeSnippet = window.getSelection().toString();
+      alert('Выделите фрагмент текста');
     }
 
-    let preparedCodeSnippet = trimRightEachLine(codeSnippet);
-    preparedCodeSnippet = dedent(preparedCodeSnippet);
-    preparedCodeSnippet = removeBlankLines(preparedCodeSnippet);
-    preparedCodeSnippet = addIndentBeforeOctothorpe(preparedCodeSnippet);
+    let preparedCodeSnippet = prepareCodeSnippet(codeSnippet);
 
     markdownSnippet = (
       `<hr/>\n`+
-      `*Файл [${filePath}](${link})${codeLinesAreSelected && ':'+linesCode || ''} :*\n` +
+      `*Файл [${filePath}](${reviewLink})${positionSuffix} :*\n` +
       `\`\`\`\n${preparedCodeSnippet}\n` +
       `\`\`\`\n`
     )
