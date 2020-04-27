@@ -1,58 +1,12 @@
-function handleKeyUp(e) {
-    if (e.altKey && e.keyCode == 67){ // Latin or Cyrillic key C
-        copyMarkdownSnippet(e.shiftKey);
+async function handleKeyUp(e) {
+  if (e.altKey && e.keyCode == 67){ // Latin or Cyrillic key C
+    if (window.location.host == 'github.com'){
+      await copyMarkdownSnippetFromGithub(e.shiftKey);
+    } else {
+      await copyMarkdownSnippetFromOtherSite();
     }
-}
-
-function dedent(text) {
-  let lines = text.split('\n');
-
-  let indents = [];
-  for (let line of lines){
-    if (!line.trim()){
-        continue;
-    }
-    let indentSize = line.length - line.trimLeft().length;
-    indents.push(indentSize);
+    console.log('copied');
   }
-
-  if (!indents.length){
-    indents.push(0);
-  }
-  let minIndent = Math.min(...indents);
-
-  let formattedLines = lines.map(line => line.substring(minIndent));
-
-  return formattedLines.join('\n');
-}
-
-function trimRightEachLine(text) {
-  let lines = text.split('\n');
-
-  let formattedLines = lines.map(line => line.trimRight());
-
-  return formattedLines.join('\n');
-}
-
-function removeBlankLines(text){
-  return text.replace(/\n+/g, '\n').replace(/^\n/, '').replace(/\n$/, '');
-}
-
-function addIndentBeforeOctothorpe(text){
-  // FIXME workaround for devman reviewer UI bug - add single whitespace before #
-  if (text.search(/^#/m) < 0){
-    return text;
-  }
-
-  return text.replace(/^/gm, ' ');  // add whitespace to every line to not broke Python code
-}
-
-function prepareCodeSnippet(text){
-    let preparedText = trimRightEachLine(text);
-    preparedText = dedent(preparedText);
-    preparedText = removeBlankLines(preparedText);
-    preparedText = addIndentBeforeOctothorpe(preparedText);
-    return preparedText;
 }
 
 function readHighlightedLines(){
@@ -63,7 +17,7 @@ function readHighlightedLines(){
   return codeLines.join('\n');
 }
 
-async function copyMarkdownSnippet(quitMode=false){
+async function copyMarkdownSnippetFromGithub(quitMode=false){
   // trigger GitHub switch to canonical url with commit hash
   document.dispatchEvent(new KeyboardEvent('keydown', {'key': 'y'}));
   let link = window.location.href;
@@ -109,7 +63,23 @@ async function copyMarkdownSnippet(quitMode=false){
     )
   }
   await navigator.clipboard.writeText(markdownSnippet);
-  console.log('copied');
+}
+
+async function copyMarkdownSnippetFromOtherSite(){
+  // copy code
+  let codeSnippet = window.getSelection().toString();
+
+  let preparedCodeSnippet = trimRightEachLine(codeSnippet);
+  preparedCodeSnippet = dedent(preparedCodeSnippet);
+  preparedCodeSnippet = removeBlankLines(preparedCodeSnippet);
+  preparedCodeSnippet = addIndentBeforeOctothorpe(preparedCodeSnippet);
+
+  let markdownSnippet = (
+    `<hr/>\n`+
+    `\`\`\`\n${preparedCodeSnippet}\n` +
+    `\`\`\`\n`
+  )
+  await navigator.clipboard.writeText(markdownSnippet);
 }
 
 // register the handler
