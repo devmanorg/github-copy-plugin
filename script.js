@@ -57,6 +57,7 @@ async function copyMarkdownSnippetFromGithub(quitMode=false){
 
     markdownSnippet = (
       `<hr/>\n`+
+      `\n`+
       `*Файл [${filePath}](${reviewLink})${positionSuffix} :*\n` +
       `\`\`\`\n${preparedCodeSnippet}\n` +
       `\`\`\`\n`
