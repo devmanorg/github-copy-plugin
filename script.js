@@ -1,5 +1,8 @@
 async function handleKeyUp(e) {
   if (e.altKey && e.keyCode == 67){ // Latin or Cyrillic key C
+    e.preventDefault();
+    e.stopPropagation();
+
     if (window.location.host == 'github.com'){
       await copyMarkdownSnippetFromGithub(e.shiftKey);
     } else {
@@ -57,7 +60,6 @@ async function copyMarkdownSnippetFromGithub(quitMode=false){
 
     markdownSnippet = (
       `<hr/>\n`+
-      `\n`+
       `*Файл [${filePath}](${reviewLink})${positionSuffix} :*\n` +
       `\`\`\`\n${preparedCodeSnippet}\n` +
       `\`\`\`\n`
@@ -67,16 +69,15 @@ async function copyMarkdownSnippetFromGithub(quitMode=false){
 }
 
 async function copyMarkdownSnippetFromOtherSite(){
-  // copy code
+  let link = window.location.href;
+  
   let codeSnippet = window.getSelection().toString();
 
-  let preparedCodeSnippet = trimRightEachLine(codeSnippet);
-  preparedCodeSnippet = dedent(preparedCodeSnippet);
-  preparedCodeSnippet = removeBlankLines(preparedCodeSnippet);
-  preparedCodeSnippet = addIndentBeforeOctothorpe(preparedCodeSnippet);
+  let preparedCodeSnippet = prepareCodeSnippet(codeSnippet);
 
   let markdownSnippet = (
     `<hr/>\n`+
+    `*[Source: ${window.location.hostname}](${window.location.href}).*\n` +
     `\`\`\`\n${preparedCodeSnippet}\n` +
     `\`\`\`\n`
   )
