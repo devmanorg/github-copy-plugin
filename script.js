@@ -85,7 +85,7 @@ async function copyMarkdownSnippetFromOtherSite(){
   let preparedCodeSnippet = prepareCodeSnippet(codeSnippet);
 
   let markdownSnippet = (
-    `<hr/>\n`+
+    `---\n`+
     `*[Source: ${window.location.hostname}](${window.location.href}).*\n` +
     `\`\`\`\n${preparedCodeSnippet}\n` +
     `\`\`\`\n`
