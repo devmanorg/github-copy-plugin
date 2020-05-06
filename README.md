@@ -35,3 +35,22 @@ def serialize_post(post): Svg Vector Icons : http://www.onlinewebfonts.com/icon
 ## Как подключить
 
 Код оформлен в виде расширения к браузеру Chrome. Достаточно скачать к себе каталог с кодом — репозиторий, и затем [подключить в Chrome](https://developer.chrome.com/extensions/getstarted).
+
+## Известные проблемы
+
+Если на Repl.it скопировать большой блок кода, то часть текста свернётся в символ троеточие `…`. Выглядит это так:
+
+```markdown
+<hr/>
+*[Source: repl.it](https://repl.it/@IevghieniiIevs1/PleasantSilentUser).*
+\`\`\`
+def get_rows_columns_directions(canvas):
+    rows_direction = columns_direction = 0
+…
+    if pressed_key_code == LEFT_KEY_CODE:
+        columns_direction = -STEP_SIZE
+    return rows_direction, columns_direction
+\`\`\`
+```
+
+Проблема связана с редактором Repl.it. Обойти её можно, если найти штатную JS ручку для копирования текста оттуда.
