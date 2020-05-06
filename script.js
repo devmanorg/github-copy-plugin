@@ -3,12 +3,21 @@ async function handleKeyUp(e) {
     e.preventDefault();
     e.stopPropagation();
 
-    if (window.location.host == 'github.com'){
-      await copyMarkdownSnippetFromGithub(e.shiftKey);
-    } else {
-      await copyMarkdownSnippetFromOtherSite();
+    try {
+      if (window.location.host == 'github.com'){
+        await copyMarkdownSnippetFromGithub(e.shiftKey);
+      } else {
+        await copyMarkdownSnippetFromOtherSite();
+      }
+      console.log('copied');
+    } catch (e) {
+      console.error(e);
+      if (e instanceof DOMException){
+        alert(e.message);
+      } else {
+        alert('Copy plugin is broken');
+      }
     }
-    console.log('copied');
   }
 }
 
