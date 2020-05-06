@@ -50,7 +50,7 @@ async function copyMarkdownSnippetFromGithub(quitMode=false){
   let markdownSnippet = '';
   if (quitMode){
     markdownSnippet = (
-        `<hr/>\n` +
+        `---\n` +
         `*Файл [${filePath}](${reviewLink})${positionSuffix}.*\n`
     );
   } else {
@@ -68,7 +68,7 @@ async function copyMarkdownSnippetFromGithub(quitMode=false){
     let preparedCodeSnippet = prepareCodeSnippet(codeSnippet);
 
     markdownSnippet = (
-      `<hr/>\n`+
+      `---\n`+
       `*Файл [${filePath}](${reviewLink})${positionSuffix} :*\n` +
       `\`\`\`\n${preparedCodeSnippet}\n` +
       `\`\`\`\n`
