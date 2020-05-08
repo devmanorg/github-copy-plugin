@@ -93,5 +93,10 @@ async function copyMarkdownSnippetFromOtherSite(){
   await navigator.clipboard.writeText(markdownSnippet);
 }
 
-// register the handler
 document.addEventListener('keyup', handleKeyUp, false);
+
+window.addEventListener("hashchange",function(event){
+  // clear selection when lines of code selected and anchor change
+  // otherwise on GitHub plugin will copy old selection and not lines
+  document.getSelection().removeAllRanges();
+});
