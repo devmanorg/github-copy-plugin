@@ -54,6 +54,28 @@ async function copyMarkdownSnippetFromGithub(quitMode=false){
   await navigator.clipboard.writeText(markdownSnippet);
 }
 
+async function copyMarkdownSnippetFromReplIt(){
+  let link = window.location.href;
+  let [replURL, fileName] = link.split('#');
+
+  // Simulate Ctrl-C press
+  var keyboardEvent = document.createEvent("KeyboardEvent");
+  var initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? "initKeyboardEvent" : "initKeyEvent";
+
+  document.execCommand("copy"); // getSelection returns truncated text for large code snippets
+  let codeSnippet = await navigator.clipboard.readText();
+
+  let preparedCodeSnippet = prepareCodeSnippet(codeSnippet);
+
+  let markdownSnippet = (
+    `---\n`+
+    `[*${fileName}*](${link})\n` +
+    `\`\`\`\n${preparedCodeSnippet}\n` +
+    `\`\`\`\n`
+  )
+  await navigator.clipboard.writeText(markdownSnippet);
+}
+
 async function copyMarkdownSnippetFromOtherSite(){
   let link = window.location.href;
   
@@ -143,7 +165,7 @@ if (window.location.host == 'github.com'){
   initGitHub();
 } else if (window.location.host == 'repl.it'){
   console.log('CopyPlugin: Repl.it detected');
-  initNonameSite();
+  initReplIt();
 } else {
   console.log('CopyPlugin: Unknown site, so activate default behaviour');
   initNonameSite();
