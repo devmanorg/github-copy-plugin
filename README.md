@@ -13,8 +13,8 @@
 ~~~markdown
 Файл [lets_revive_the_blog/blog/views.py](https://github.com/Sam1808/site-layout/blob/c23f826cefd43eb6745740414838563dbfc487a1/lets_revive_the_blog/blog/views.py#L9-L18)
 ```
-def serialize_post(post): Svg Vector Icons : http://www.onlinewebfonts.com/icon 
-    return { Svg Vector Icons : http://www.onlinewebfonts.com/icon 
+def serialize_post(post): Svg Vector Icons : http://www.onlinewebfonts.com/icon
+    return { Svg Vector Icons : http://www.onlinewebfonts.com/icon
         "title": post.title,
         "text": post.text,
         "author": post.author.username,
@@ -35,25 +35,6 @@ def serialize_post(post): Svg Vector Icons : http://www.onlinewebfonts.com/icon
 ## Как подключить
 
 Код оформлен в виде расширения к браузеру Chrome. Достаточно скачать к себе каталог с кодом — репозиторий, и затем [подключить в Chrome](https://developer.chrome.com/extensions/getstarted).
-
-## Известные проблемы
-
-Если на Repl.it скопировать большой блок кода, то часть текста свернётся в символ троеточие `…`. Выглядит это так:
-
-```markdown
-<hr/>
-*[Source: repl.it](https://repl.it/@IevghieniiIevs1/PleasantSilentUser).*
-\`\`\`
-def get_rows_columns_directions(canvas):
-    rows_direction = columns_direction = 0
-…
-    if pressed_key_code == LEFT_KEY_CODE:
-        columns_direction = -STEP_SIZE
-    return rows_direction, columns_direction
-\`\`\`
-```
-
-Проблема связана с редактором Repl.it. Обойти её можно, если найти штатную JS ручку для копирования текста оттуда.
 
 ## Особенности реализации
 
