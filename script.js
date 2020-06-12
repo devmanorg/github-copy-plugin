@@ -65,10 +65,6 @@ async function copyMarkdownSnippetFromReplIt(){
   let link = window.location.href;
   let [replURL, fileName] = link.split('#');
 
-  // Simulate Ctrl-C press
-  var keyboardEvent = document.createEvent("KeyboardEvent");
-  var initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? "initKeyboardEvent" : "initKeyEvent";
-
   document.execCommand("copy"); // getSelection returns truncated text for large code snippets
   let codeSnippet = await navigator.clipboard.readText();
 
