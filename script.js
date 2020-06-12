@@ -66,7 +66,7 @@ async function copyMarkdownSnippetFromReplIt(quitMode=false){
   let [replURL, fileName] = link.split('#');
 
   let markdownSnippet = '';
-  
+
   if (quitMode){
     markdownSnippet = (
         `---\n` +
@@ -89,19 +89,31 @@ async function copyMarkdownSnippetFromReplIt(quitMode=false){
   await navigator.clipboard.writeText(markdownSnippet);
 }
 
-async function copyMarkdownSnippetFromOtherSite(){
+async function copyMarkdownSnippetFromOtherSite(quitMode=false){
   let link = window.location.href;
-  
-  let codeSnippet = window.getSelection().toString();
 
-  let preparedCodeSnippet = prepareCodeSnippet(codeSnippet);
+  let lastNamePart = window.location.href.split('/').slice(-1)[0];
+  let pageName = `${window.location.hostname}/…/${lastNamePart}`;
 
-  let markdownSnippet = (
-    `---\n`+
-    `[_${window.location.hostname}_](${link})\n` +
-    `\`\`\`\n${preparedCodeSnippet}\n` +
-    `\`\`\`\n`
-  )
+  let markdownSnippet = '';
+
+  if (quitMode){
+    markdownSnippet = (
+        `---\n` +
+        `[${pageName}](${link}).\n`
+    );
+  } else {
+    let codeSnippet = window.getSelection().toString();
+
+    let preparedCodeSnippet = prepareCodeSnippet(codeSnippet);
+
+    markdownSnippet = (
+      `---\n`+
+      `[_${pageName}_](${link})\n` +
+      `\`\`\`\n${preparedCodeSnippet}\n` +
+      `\`\`\`\n`
+    )
+  }
   await navigator.clipboard.writeText(markdownSnippet);
 }
 
@@ -164,7 +176,7 @@ function initNonameSite(){
       event.preventDefault();
       event.stopPropagation();
 
-      await wrapWithErrorsHandler(copyMarkdownSnippetFromOtherSite)();
+      await wrapWithErrorsHandler(copyMarkdownSnippetFromOtherSite)(event.shiftKey);
     }
   }
 
