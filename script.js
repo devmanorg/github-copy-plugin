@@ -1,26 +1,3 @@
-async function handleKeyUp(e) {
-  if (e.altKey && e.keyCode == 67){ // Latin or Cyrillic key C
-    e.preventDefault();
-    e.stopPropagation();
-
-    try {
-      if (window.location.host == 'github.com'){
-        await copyMarkdownSnippetFromGithub(e.shiftKey);
-      } else {
-        await copyMarkdownSnippetFromOtherSite();
-      }
-      console.log('copied');
-    } catch (e) {
-      console.error(e);
-      if (e instanceof DOMException){
-        alert(e.message);
-      } else {
-        alert('Copy plugin is broken');
-      }
-    }
-  }
-}
-
 function readHighlightedLines(){
   // Read code lines highlighted on GitHub page, return multiline string
   const lines = document.querySelectorAll('.js-file-line-container .js-file-line.highlighted');
@@ -86,7 +63,7 @@ async function copyMarkdownSnippetFromOtherSite(){
 
   let markdownSnippet = (
     `---\n`+
-    `*[Source: ${window.location.hostname}](${window.location.href}).*\n` +
+    `*[Source: ${window.location.hostname}](${link}).*\n` +
     `\`\`\`\n${preparedCodeSnippet}\n` +
     `\`\`\`\n`
   )
@@ -112,7 +89,7 @@ function wrapWithErrorsHandler(callback){
 
 function initGitHub(){
   async function handleKeyUp(event) {
-    if (event.altKey && event.keyCode == 67){ // Latin or Cyrillic key C
+    if (event.altKey && event.code == 'KeyC'){ // Latin or Cyrillic key C
       event.preventDefault();
       event.stopPropagation();
 
@@ -133,11 +110,11 @@ function initGitHub(){
 
 function initReplIt(){
   async function handleKeyUp(event) {
-    if (event.altKey && event.keyCode == 67){ // Latin or Cyrillic key C
+    if (event.altKey && event.code == 'KeyC'){ // Latin or Cyrillic key C
       event.preventDefault();
       event.stopPropagation();
 
-      await wrapWithErrorsHandler(copyMarkdownSnippetFromOtherSite)();
+      await wrapWithErrorsHandler(copyMarkdownSnippetFromReplIt)();
     }
   }
 
@@ -148,7 +125,7 @@ function initReplIt(){
 
 function initNonameSite(){
   async function handleKeyUp(event) {
-    if (event.altKey && event.keyCode == 67){ // Latin or Cyrillic key C
+    if (event.altKey && event.code == 'KeyC'){ // Latin or Cyrillic key C
       event.preventDefault();
       event.stopPropagation();
 
@@ -166,7 +143,7 @@ if (window.location.host == 'github.com'){
   initGitHub();
 } else if (window.location.host == 'repl.it'){
   console.log('CopyPlugin: Repl.it detected');
-  initReplIt();
+  initNonameSite();
 } else {
   console.log('CopyPlugin: Unknown site, so activate default behaviour');
   initNonameSite();
