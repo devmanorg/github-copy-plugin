@@ -61,21 +61,31 @@ async function copyMarkdownSnippetFromGithub(quitMode=false){
   await navigator.clipboard.writeText(markdownSnippet);
 }
 
-async function copyMarkdownSnippetFromReplIt(){
+async function copyMarkdownSnippetFromReplIt(quitMode=false){
   let link = window.location.href;
   let [replURL, fileName] = link.split('#');
 
-  document.execCommand("copy"); // getSelection returns truncated text for large code snippets
-  let codeSnippet = await navigator.clipboard.readText();
+  let markdownSnippet = '';
+  
+  if (quitMode){
+    markdownSnippet = (
+        `---\n` +
+        `Файл [${fileName}](${link}).\n`
+    );
+  } else {
 
-  let preparedCodeSnippet = prepareCodeSnippet(codeSnippet);
+    document.execCommand("copy"); // getSelection returns truncated text for large code snippets
+    let codeSnippet = await navigator.clipboard.readText();
 
-  let markdownSnippet = (
-    `---\n`+
-    `[_${fileName}_](${link})\n` +
-    `\`\`\`\n${preparedCodeSnippet}\n` +
-    `\`\`\`\n`
-  )
+    let preparedCodeSnippet = prepareCodeSnippet(codeSnippet);
+
+    markdownSnippet = (
+      `---\n`+
+      `[_${fileName}_](${link})\n` +
+      `\`\`\`\n${preparedCodeSnippet}\n` +
+      `\`\`\`\n`
+    )
+  }
   await navigator.clipboard.writeText(markdownSnippet);
 }
 
@@ -139,7 +149,7 @@ function initReplIt(){
       event.preventDefault();
       event.stopPropagation();
 
-      await wrapWithErrorsHandler(copyMarkdownSnippetFromReplIt)();
+      await wrapWithErrorsHandler(copyMarkdownSnippetFromReplIt)(event.shiftKey);
     }
   }
 
