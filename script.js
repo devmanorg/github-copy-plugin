@@ -22,13 +22,20 @@ async function copyMarkdownSnippetFromGithub(quitMode=false){
   let selection = window.getSelection().toString();
   let codeLinesAreSelected = Boolean(linesCode) && !selection; // selection has priority
   let reviewLink = selection && fileURL || link;
-  const positionSuffix = codeLinesAreSelected && ':'+linesCode || '';
+  let positionSuffix = '';
+  if (codeLinesAreSelected){
+    let match = linesCode.match(/\d+/);
+    if (match){
+      let firstLineNumber = match[0];
+      positionSuffix = `:${firstLineNumber}`
+    }
+  }
 
   let markdownSnippet = '';
   if (quitMode){
     markdownSnippet = (
         `---\n` +
-        `*Файл [${filePath}](${reviewLink})${positionSuffix}.*\n\n`
+        `Файл [${filePath}${positionSuffix}](${reviewLink}).\n`
     );
   } else {
     let codeSnippet = '';
@@ -46,7 +53,7 @@ async function copyMarkdownSnippetFromGithub(quitMode=false){
 
     markdownSnippet = (
       `---\n`+
-      `*Файл [${filePath}](${reviewLink})${positionSuffix} :*\n` +
+      `[_${filePath}${positionSuffix}_](${reviewLink})\n` +
       `\`\`\`\n${preparedCodeSnippet}\n` +
       `\`\`\`\n`
     )
@@ -69,7 +76,7 @@ async function copyMarkdownSnippetFromReplIt(){
 
   let markdownSnippet = (
     `---\n`+
-    `[*${fileName}*](${link})\n` +
+    `[_${fileName}_](${link})\n` +
     `\`\`\`\n${preparedCodeSnippet}\n` +
     `\`\`\`\n`
   )
@@ -85,7 +92,7 @@ async function copyMarkdownSnippetFromOtherSite(){
 
   let markdownSnippet = (
     `---\n`+
-    `*[Source: ${window.location.hostname}](${link}).*\n` +
+    `[_${window.location.hostname}_](${link})\n` +
     `\`\`\`\n${preparedCodeSnippet}\n` +
     `\`\`\`\n`
   )
