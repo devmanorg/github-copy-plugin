@@ -28,8 +28,8 @@ function trimRightEachLine(text) {
   return formattedLines.join('\n');
 }
 
-function removeBlankLines(text){
-  return text.replace(/\n+/g, '\n').replace(/^\n/, '').replace(/\n$/, '');
+function removeRedundantBlankLines(text){
+  return text.replace(/\n{2,}/g, '\n\n').replace(/^\n+/, '').replace(/\n+$/, '');
 }
 
 function addIndentBeforeOctothorpe(text){
@@ -44,7 +44,7 @@ function addIndentBeforeOctothorpe(text){
 function prepareCodeSnippet(text){
     let preparedText = trimRightEachLine(text);
     preparedText = dedent(preparedText);
-    preparedText = removeBlankLines(preparedText);
+    preparedText = removeRedundantBlankLines(preparedText);
     preparedText = addIndentBeforeOctothorpe(preparedText);
     return preparedText;
 }
