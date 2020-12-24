@@ -6,6 +6,59 @@ function readHighlightedLines(){
   return codeLines.join('\n');
 }
 
+function detectSyntaxByFilename(filename){
+  if (filename.endsWith('.py')){
+    return 'python'
+  }
+  if (filename.endsWith('.js')){
+    return 'js'
+  }
+  if (filename.endsWith('.html')){
+    return 'html'
+  }
+  if (filename.endsWith('.svg')){
+    return 'markup'
+  }
+  if (filename.endsWith('.xml')){
+    return 'markup'
+  }
+  if (filename.endsWith('.css')){
+    return 'css'
+  }
+  if (filename.endsWith('.sh')){
+    return 'bash'
+  }
+  if (filename == 'Dockerfile' || filename.endsWith('/Dockerfile')){
+    return 'dockerfile'
+  }
+  if (filename.endsWith('.diff')){
+    return 'diff'
+  }
+  if (filename.endsWith('.json')){
+    return 'json'
+  }
+  if (filename.endsWith('.md')){
+    return 'md'
+  }
+  if (filename.endsWith('.yaml')){
+    return 'yaml'
+  }
+  if (filename.endsWith('.sql')){
+    return 'sql'
+  }
+  if (filename.endsWith('.editorconfig')){
+    return 'editorconfig'
+  }
+  if (filename.endsWith('.toml')){
+    return 'toml'
+  }
+  if (filename.endsWith('.ini')){
+    return 'ini'
+  }
+
+  return '';
+}
+
 async function copyMarkdownSnippetFromGithub(quitMode=false){
   // trigger GitHub switch to canonical url with commit hash
   document.dispatchEvent(new KeyboardEvent('keydown', {'key': 'y'}));
@@ -50,11 +103,17 @@ async function copyMarkdownSnippetFromGithub(quitMode=false){
     }
 
     let preparedCodeSnippet = prepareCodeSnippet(codeSnippet);
+    let syntax = '';
+
+    // disabled if .md file because it is rendered on GitHub as HTML, not markdown.
+    if (!filePath.endsWith('.md')){
+      syntax = detectSyntaxByFilename(filePath);
+    }
 
     markdownSnippet = (
       `---\n`+
       `[_${filePath}${positionSuffix}_](${reviewLink})\n` +
-      `\`\`\`\n${preparedCodeSnippet}\n` +
+      `\`\`\`${syntax}\n${preparedCodeSnippet}\n` +
       `\`\`\`\n`
     )
   }
@@ -78,11 +137,12 @@ async function copyMarkdownSnippetFromReplIt(quitMode=false){
     let codeSnippet = await navigator.clipboard.readText();
 
     let preparedCodeSnippet = prepareCodeSnippet(codeSnippet);
+    let syntax = detectSyntaxByFilename(fileName);
 
     markdownSnippet = (
       `---\n`+
       `[_${fileName}_](${link})\n` +
-      `\`\`\`\n${preparedCodeSnippet}\n` +
+      `\`\`\`${syntax}\n${preparedCodeSnippet}\n` +
       `\`\`\`\n`
     )
   }
