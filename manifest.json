@@ -3,7 +3,7 @@
     "version": "1.0",
     "description": "Copy code and format for review on Devman site.",
     "manifest_version": 2,
-    
+
     "permissions": [
         "activeTab",
         "clipboardWrite",
@@ -20,6 +20,10 @@
             "all_frames": true,
             "js": [
                 "text-tools.js",
+                "animations.js",
+                "sites/github.com.js",
+                "sites/repl.it.js",
+                "sites/noname.js",
                 "script.js"
             ]
         }

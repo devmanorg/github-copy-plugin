@@ -48,3 +48,56 @@ function prepareCodeSnippet(text){
     preparedText = addIndentBeforeOctothorpe(preparedText);
     return preparedText;
 }
+
+function detectSyntaxByFilename(filename){
+  if (filename.endsWith('.py')){
+    return 'python'
+  }
+  if (filename.endsWith('.js')){
+    return 'js'
+  }
+  if (filename.endsWith('.html')){
+    return 'html'
+  }
+  if (filename.endsWith('.svg')){
+    return 'markup'
+  }
+  if (filename.endsWith('.xml')){
+    return 'markup'
+  }
+  if (filename.endsWith('.css')){
+    return 'css'
+  }
+  if (filename.endsWith('.sh')){
+    return 'bash'
+  }
+  if (filename == 'Dockerfile' || filename.endsWith('/Dockerfile')){
+    return 'dockerfile'
+  }
+  if (filename.endsWith('.diff')){
+    return 'diff'
+  }
+  if (filename.endsWith('.json')){
+    return 'json'
+  }
+  if (filename.endsWith('.md')){
+    return 'md'
+  }
+  if (filename.endsWith('.yaml')){
+    return 'yaml'
+  }
+  if (filename.endsWith('.sql')){
+    return 'sql'
+  }
+  if (filename.endsWith('.editorconfig')){
+    return 'editorconfig'
+  }
+  if (filename.endsWith('.toml')){
+    return 'toml'
+  }
+  if (filename.endsWith('.ini')){
+    return 'ini'
+  }
+
+  return '';
+}
