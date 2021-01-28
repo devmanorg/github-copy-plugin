@@ -83,6 +83,9 @@ function detectSyntaxByFilename(filename){
   if (filename.endsWith('.md')){
     return 'md'
   }
+  if (filename.endsWith('.yml')){
+    return 'yaml'
+  }
   if (filename.endsWith('.yaml')){
     return 'yaml'
   }
