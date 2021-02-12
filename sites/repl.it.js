@@ -5,7 +5,7 @@ var copyMarkdownSnippetFromReplIt = (function(){ // ES6 modules are not supporte
   }
 
   async function highlightReplitSeletedLines(){
-    let elements = document.querySelectorAll('.view-overlays .selected-text');
+    let elements = document.querySelectorAll('.view-overlays .selected-text, .ace_selection');
     for (let element of elements){
       highlightElement(element);  // launch multiple coroutines in parallel
     }
