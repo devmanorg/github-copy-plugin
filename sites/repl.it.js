@@ -11,16 +11,49 @@ var copyMarkdownSnippetFromReplIt = (function(){ // ES6 modules are not supporte
     }
   }
 
+  function* collectFolders(node){
+    while (true){
+      node = node.parentNode.closest('.dir-node:not(.root-node)');
+
+      if (!node){
+        return;
+      }
+
+      const folderMenuItem = node.querySelector('[title]');
+
+      if (!folderMenuItem){
+        return;
+      }
+
+      yield folderMenuItem.title;
+    }
+  }
+
   async function copyMarkdownSnippet(quitMode=false){
     let link = window.location.href;
-    let [replURL, fileName] = link.split('#');
+    let [replURL, filePath] = link.split('#');
+
+    if (!filePath){
+      // If Repl is belong to someone else UI will differ, so alternative logic used
+      const fileNode = document.querySelector('.node.active.interactive [title]');
+
+      if (fileNode){
+        const filePathParts = [
+          ...Array.from(collectFolders(fileNode)).reverse(),
+          fileNode.title,
+        ];
+        filePath = filePathParts.join('/');
+      }
+    }
+
+    filePath = filePath || '?';
 
     let markdownSnippet = '';
 
     if (quitMode){
       markdownSnippet = (
           `---\n` +
-          `Файл [${fileName}](${link}).\n`
+          `Файл [${filePath}](${link}).\n`
       );
     } else {
 
@@ -28,11 +61,11 @@ var copyMarkdownSnippetFromReplIt = (function(){ // ES6 modules are not supporte
       let codeSnippet = await navigator.clipboard.readText();
 
       let preparedCodeSnippet = prepareCodeSnippet(codeSnippet);
-      let syntax = detectSyntaxByFilename(fileName);
+      let syntax = detectSyntaxByFilename(filePath);
 
       markdownSnippet = (
         `---\n`+
-        `[_${fileName}_](${link})\n` +
+        `[_${filePath}_](${link})\n` +
         `\`\`\`${syntax}\n${preparedCodeSnippet}\n` +
         `\`\`\`\n`
       )
