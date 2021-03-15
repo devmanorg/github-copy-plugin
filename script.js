@@ -69,7 +69,7 @@ function initNonameSite(){
 if (window.location.host == 'github.com'){
   console.log('CopyPlugin: GitHub detected');
   initGitHub();
-} else if (window.location.host == 'repl.it'){
+} else if (window.location.host == 'repl.it' || window.location.host == 'replit.com'){
   console.log('CopyPlugin: Repl.it detected');
   initReplIt();
 } else {
