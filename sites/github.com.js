@@ -48,7 +48,7 @@ var copyMarkdownSnippetFromGithub = (function(){ // ES6 modules are not supporte
     let markdownSnippet = '';
     if (quitMode){
       markdownSnippet = (
-          `---\n` +
+          `- - -\n` +
           `Файл [${filePath}${positionSuffix}](${reviewLink}).\n`
       );
     } else {
@@ -72,7 +72,7 @@ var copyMarkdownSnippetFromGithub = (function(){ // ES6 modules are not supporte
       }
 
       markdownSnippet = (
-        `---\n`+
+        `- - -\n`+
         `[_${filePath}${positionSuffix}_](${reviewLink})\n` +
         `\`\`\`${syntax}\n${preparedCodeSnippet}\n` +
         `\`\`\`\n`

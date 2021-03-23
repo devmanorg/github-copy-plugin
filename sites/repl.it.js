@@ -52,7 +52,7 @@ var copyMarkdownSnippetFromReplIt = (function(){ // ES6 modules are not supporte
 
     if (quitMode){
       markdownSnippet = (
-          `---\n` +
+          `- - -\n` +
           `Файл [${filePath}](${link}).\n`
       );
     } else {
@@ -64,7 +64,7 @@ var copyMarkdownSnippetFromReplIt = (function(){ // ES6 modules are not supporte
       let syntax = detectSyntaxByFilename(filePath);
 
       markdownSnippet = (
-        `---\n`+
+        `- - -\n`+
         `[_${filePath}_](${link})\n` +
         `\`\`\`${syntax}\n${preparedCodeSnippet}\n` +
         `\`\`\`\n`

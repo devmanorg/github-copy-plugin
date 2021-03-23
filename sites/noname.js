@@ -10,7 +10,7 @@ var copyMarkdownSnippetFromOtherSite = (function(){ // ES6 modules are not suppo
 
     if (quitMode){
       markdownSnippet = (
-          `---\n` +
+          `- - -\n` +
           `[${pageName}](${link}).\n`
       );
     } else {
@@ -19,7 +19,7 @@ var copyMarkdownSnippetFromOtherSite = (function(){ // ES6 modules are not suppo
       let preparedCodeSnippet = prepareCodeSnippet(codeSnippet);
 
       markdownSnippet = (
-        `---\n`+
+        `- - -\n`+
         `[_${pageName}_](${link})\n` +
         `\`\`\`\n${preparedCodeSnippet}\n` +
         `\`\`\`\n`
