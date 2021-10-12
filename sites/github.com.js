@@ -20,12 +20,19 @@ var copyMarkdownSnippetFromGithub = (function(){ // ES6 modules are not supporte
   }
 
   async function copyMarkdownSnippet(quitMode=false){
-    // trigger GitHub switch to canonical url with commit hash
-    document.dispatchEvent(new KeyboardEvent('keydown', {'key': 'y'}));
     let link = window.location.href;
-    let [fileURL, linesCode] = link.split('#');
-
-    let filePath = fileURL.split(/\/[a-z0-9]{40,}\//)[1] || 'README';
+    let filePath;
+    let fileURL, linesCode;
+    if (link.includes('commits')){
+      filePath = 'commits';
+    }
+    else{
+      // trigger GitHub switch to canonical url with commit hash
+      document.dispatchEvent(new KeyboardEvent('keydown', {'key': 'y'}));
+      link = window.location.href;
+      [fileURL, linesCode] = link.split('#');
+      filePath = fileURL.split(/\/[a-z0-9]{40,}\//)[1] || 'README';
+    }
 
     if (filePath.length > 40){
       let startIndex = filePath.length - 41;
