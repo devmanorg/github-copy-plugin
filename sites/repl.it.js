@@ -1,3 +1,7 @@
+// Три тире -- это горизонтальная полоса в Markdown. Пробелы между тире специально добавлены,
+// чтобы markdown не воспринял случайно эти три подчёркивания как заголовок.
+const DELIMITER = '- - -';
+
 var copyMarkdownSnippetFromReplIt = (function(){ // ES6 modules are not supported by Chrome extensions, so closure used instead
 
   function sleep(ms) {
@@ -52,7 +56,7 @@ var copyMarkdownSnippetFromReplIt = (function(){ // ES6 modules are not supporte
 
     if (quitMode){
       markdownSnippet = (
-          `- - -\n` +
+          `${DELIMITER}\n` +
           `Файл [${filePath}](${link}).\n`
       );
     } else {
@@ -64,7 +68,7 @@ var copyMarkdownSnippetFromReplIt = (function(){ // ES6 modules are not supporte
       let syntax = detectSyntaxByFilename(filePath);
 
       markdownSnippet = (
-        `- - -\n`+
+        `${DELIMITER}\n`+
         `[_${filePath}_](${link})\n` +
         `\`\`\`${syntax}\n${preparedCodeSnippet}\n` +
         `\`\`\`\n`
