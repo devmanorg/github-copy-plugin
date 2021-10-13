@@ -1,7 +1,3 @@
-// Три тире -- это горизонтальная полоса в Markdown. Пробелы между тире специально добавлены,
-// чтобы markdown не воспринял случайно эти три подчёркивания как заголовок.
-const DELIMITER = '- - -';
-
 var copyMarkdownSnippetFromGithub = (function(){ // ES6 modules are not supported by Chrome extensions, so closure used instead
 
   function sleep(ms) {
