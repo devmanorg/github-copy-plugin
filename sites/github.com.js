@@ -1,5 +1,9 @@
 var copyMarkdownSnippetFromGithub = (function(){ // ES6 modules are not supported by Chrome extensions, so closure used instead
 
+  function cleanOctotreeLinkGarbage(url){
+    // workaround for https://www.octotree.io/ chrome plugin bug.
+    return url.replace(/\?_pjax=[\%\-\w\.\_]+/i, '?')
+  }
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
@@ -29,7 +33,7 @@ var copyMarkdownSnippetFromGithub = (function(){ // ES6 modules are not supporte
     else{
       // trigger GitHub switch to canonical url with commit hash
       document.dispatchEvent(new KeyboardEvent('keydown', {'key': 'y'}));
-      link = window.location.href;
+      link = cleanOctotreeLinkGarbage(window.location.href);
       [fileURL, linesCode] = link.split('#');
       filePath = fileURL.split(/\/[a-z0-9]{40,}\//)[1] || 'README';
     }
