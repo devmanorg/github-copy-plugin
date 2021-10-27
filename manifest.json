@@ -7,7 +7,8 @@
     "permissions": [
         "activeTab",
         "clipboardWrite",
-        "clipboardRead"
+        "clipboardRead",
+        "tabs"
     ],
 
     "content_scripts": [
@@ -18,14 +19,24 @@
             ],
             "run_at": "document_idle",
             "all_frames": true,
+            "css": ["enhancements-search/enhancements.css"],
             "js": [
                 "text-tools.js",
                 "animations.js",
                 "sites/github.com.js",
                 "sites/repl.it.js",
                 "sites/noname.js",
-                "script.js"
+                "script.js",
+                "enhancements-search/open-dialog.js"
             ]
         }
-    ]
+    ],
+    "background": {
+      "scripts": [
+        "external-libraries/xregexp-all.js",
+        "external-libraries/lodash.min.js",
+        "enhancements-search/search.js"
+      ],
+      "persistent": false
+    }
 }
