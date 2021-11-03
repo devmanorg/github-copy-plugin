@@ -1,12 +1,14 @@
 const domain = "https://dvmn.org";
-const url = "https://dvmn.org/reviews/find-enhancements";
+const url = "https://dvmn.org/reviews/enhancements/";
 
 let commonErrors;
 let commonErrorsChoices;
 let availableTags;
 
 async function preloadEnhancement(){
-  let response = await fetch(url);
+  let response = await fetch(url, {headers: {
+    "Accept": "application/json"
+  }});
   if (!response.ok) {
     console.log("Ошибка HTTP: " + response.status);
     return;
