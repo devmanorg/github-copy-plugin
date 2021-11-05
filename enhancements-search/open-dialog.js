@@ -1,95 +1,95 @@
-let modal_dialog = '<style>\n' +
-  '.hide{\n' +
-  '    display: none;\n' +
-  '}\n' +
-  '.modal{\n' +
-  '    /*display: none;*/\n' +
-  '    position: fixed;\n' +
-  '    width: 100%;\n' +
-  '    height: 100%;\n' +
-  '    background-color: rgba(0,0,0,0.3);\n' +
-  '    top:0;\n' +
-  '    left: 0;\n' +
-  '}\n' +
-  '.modal-body{\n' +
-  '    min-height: 100%;\n' +
-  '    display: flex;\n' +
-  '    align-items: center;\n' +
-  '    justify-content: center;\n' +
-  '    padding: 30px 10px;\n' +
-  '}\n' +
-  '\n' +
-  '.modal-content{\n' +
-  '    background-color: white;\n' +
-  '    color: #000;\n' +
-  '    max-width: 800px;\n' +
-  '    padding: 20px;\n' +
-  '}\n' +
-  '.modal-header{\n' +
-  '    display: flex;\n' +
-  '    justify-content: space-between;\n' +
-  '    font-size: 20px;\n' +
-  '    max-height: 50px;\n' +
-  '    margin: 5px;\n' +
-  '    border-bottom: 1px #eee;\n' +
-  '}\n' +
-  '.modal-close{\n' +
-  '    background-color: transparent;\n' +
-  '    border: 0;\n' +
-  '    font-size: 20px;\n' +
-  '}\n' +
-  '.modal-header h5{\n' +
-  '    margin: 0;\n' +
-  '}\n' +
-  '.modal-main{\n' +
-  '    width: 100%;\n' +
-  '    font-size: 10px;\n' +
-  '    margin: 10px 0;\n' +
-  '}\n' +
-  '.modal-input{\n' +
-  '    margin-bottom: 10px;\n' +
-  '}\n' +
-  '.modal-main h6{\n' +
-  '    margin: 5px;\n' +
-  '    color: #495057;\n' +
+let modal_dialog = `<style>
+.hide{
+    display: none;
+}
+.modal{
+    /*display: none;*/
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.3);
+    top:0;
+    left: 0;
+}
+.modal-body{
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 10px;
+}
 
-  '}\n' +
-  '.modal-main input{\n' +
-  '    width: 100%;\n' +
-  '}\n' +
-  '.modal-main button{\n' +
-  '    width: 100%;\n' +
-  '    max-height: 50px;\n' +
-  '    font-size: 20px;\n' +
-  '    text-align: left;\n' +
-  '    position: relative;\n' +
-  '    display: block;\n' +
-  '    padding: .75rem 1.25rem;\n' +
-  '    background-color: #fff;\n' +
-  '    border: 1px solid rgba(0,0,0,.125);\n' +
-  '}\n' +
-  '</style>\n' +
-  '  <div class="modal-body">\n' +
-  '\n' +
-  '    <div class="modal-content">\n' +
-  '      <div class="modal-header">\n' +
-  '        <h5 class="modal-title">Типичные улучшения</h5>\n' +
-  '        <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">\n' +
-  '          <span aria-hidden="true">&times;</span>\n' +
-  '        </button>\n' +
-  '      </div>\n' +
-  '\n' +
-  '      <div class="modal-main">\n' +
-  '        <div class="modal-input" style="min-width: 400px;">\n' +
-  '            <input type="text" id="common-error-search" tabindex="1" class="form-control" autocomplete="off"/>\n' +
-  '              <kbd class="bg-transparent text-muted">Enter</kbd>, чтобы добавить новое улучшение.\n' +
-  '        </div>\n' +
-  '        <div id="tags-available" style="min-width: 150px;">\n' +
-  '        </div>\n' +
-  '      </div>\n' +
-  '    </div>\n' +
-  '\n' +
-  '</div>';
+.modal-content{
+    background-color: white;
+    color: #000;
+    max-width: 800px;
+    padding: 20px;
+}
+.modal-header{
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    max-height: 50px;
+    margin: 5px;
+    border-bottom: 1px #eee;
+}
+.modal-close{
+    background-color: transparent;
+    border: 0;
+    font-size: 20px;
+}
+.modal-header h5{
+    margin: 0;
+}
+.modal-main{
+    width: 100%;
+    font-size: 10px;
+    margin: 10px 0;
+}
+.modal-input{
+    margin-bottom: 10px;
+}
+.modal-main h6{
+    margin: 5px;
+    color: #495057;
+
+}
+.modal-main input{
+    width: 100%;
+}
+.modal-main button{
+    width: 100%;
+    max-height: 50px;
+    font-size: 20px;
+    text-align: left;
+    position: relative;
+    display: block;
+    padding: .75rem 1.25rem;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+}
+</style>
+  <div class="modal-body">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Типичные улучшения</h5>
+        <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-main">
+        <div class="modal-input" style="min-width: 400px;">
+            <input type="text" id="common-error-search" tabindex="1" class="form-control" autocomplete="off"/>
+              <kbd class="bg-transparent text-muted">Enter</kbd>, чтобы добавить новое улучшение.
+        </div>
+        <div id="tags-available" style="min-width: 150px;">
+        </div>
+      </div>
+    </div>
+
+</div>`;
 
 function createEnhBlock(title, url){
   let enhBlock = document.createElement("div");
