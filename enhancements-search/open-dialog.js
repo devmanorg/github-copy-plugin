@@ -83,7 +83,7 @@ let modal_dialog = `<style>
       <div class="modal-main">
         <div class="modal-input" style="min-width: 400px;">
             <input type="text" id="common-error-search" tabindex="1" class="form-control" autocomplete="off"/>
-              <kbd class="bg-transparent text-muted">Enter</kbd>, чтобы добавить новое улучшение.
+              <kbd class="bg-transparent text-muted">Enter</kbd>, чтобы выбрать улучшение. Для поиска по тегу начните название с собаки <code>@</code>.
         </div>
         <div id="tags-available" style="min-width: 150px;">
         </div>

@@ -62,7 +62,8 @@ async function handleMessage(message, sender, sendResponse) {
 const FULL_TEXT_SEARCH_MIN_WORD_SIZE = 4;
 
 const searchableWordRegExp = new XRegExp(
-  `[\\pL\\d]         # first unicode letter
+  `@?                # tag name prefix
+   [\\pL\\d]         # first unicode letter
    [\\pL\\-\\.\\d]*  # anything
    [\\pL\\d]         # last unicode letter
   `, 'x');
@@ -96,14 +97,19 @@ function splitByTagsAndRest(queryWords, availableTags) {
 
   // iterate by words first to save tags order, specified by user
   for (let queryWord of queryWords) {
-    const lowerQueryWord = queryWord.toLowerCase()
-    let tags = _.filter(availableTags, tag => tag.normalizedForSearchText.startsWith(lowerQueryWord));
+    if (!queryWord.startsWith('@')){
+      continue;
+    }
+    const lowerTagNamePart = queryWord.substring(1).toLowerCase();
+
+    let tags = _.filter(availableTags, tag=>tag.normalizedForSearchText.startsWith(lowerTagNamePart));
     if (tags.length != 1) {
       continue
     }
     selectedTags.add(tags[0]);
     excludedWords.add(queryWord);
   }
+  
   let searchableWords = _.difference(queryWords, Array.from(excludedWords));
   return [
     Array.from(selectedTags),
