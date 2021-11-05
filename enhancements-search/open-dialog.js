@@ -39,6 +39,8 @@ let modal_dialog = `
       background-color: transparent;
       border: 0;
       font-size: 20px;
+      cursor: pointer;
+      padding: 5px;
   }
   .modal-header h5{
       margin: 0;
