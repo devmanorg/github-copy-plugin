@@ -110,8 +110,8 @@ let openDialog = (async function(){
   else {
     shadowBox = document.createElement("div");
     shadowBox.id = "find-enhancement";
-    // Добавлен для обхода обработки горячих клавиш на githab
-    // Github перехватывает событие keydown
+    // Добавлен для обхода обработки горячих клавиш на GitHub
+    // GitHub перехватывает событие keydown
     // Игнорирует если target - select, input, textarea, editable
     shadowBox.contentEditable = "true";
     let shadowRoot = shadowBox.attachShadow({mode: 'open'});
