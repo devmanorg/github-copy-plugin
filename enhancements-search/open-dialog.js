@@ -4,6 +4,7 @@ let modal_dialog = `<style>
 }
 .modal{
     /*display: none;*/
+    z-index: 2147483647;  /* max possible value */
     position: fixed;
     width: 100%;
     height: 100%;
