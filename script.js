@@ -23,6 +23,11 @@ function initGitHub(){
 
       await wrapWithErrorsHandler(copyMarkdownSnippetFromGithub)(event.shiftKey);
     }
+    if (event.ctrlKey && event.code == 'KeyQ'){
+      event.preventDefault();
+
+      await openDialog();
+    }
   }
 
   document.addEventListener('keyup', handleKeyUp, {
