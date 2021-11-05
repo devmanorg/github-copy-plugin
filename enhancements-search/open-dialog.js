@@ -75,7 +75,7 @@ let modal_dialog = `<style>
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Типичные улучшения</h5>
-        <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close modal-close js-close-modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -94,7 +94,7 @@ let modal_dialog = `<style>
 
 function createEnhBlock(title, url){
   let enhBlock = document.createElement("div");
-  let enhTemplate = `<button type="button" tabindex="2" url="${url}">
+  let enhTemplate = `<button class="js-enh" type="button" tabindex="2" url="${url}">
     <h6>${title}</h6></button>`;
   enhBlock.innerHTML = enhTemplate;
   return enhBlock;
@@ -124,14 +124,18 @@ let openDialog = (async function(){
   }
 
   let query_field = shadowBox.shadowRoot.querySelector("#common-error-search");
-  let enhBlocks = shadowBox.shadowRoot.querySelectorAll("button");
+  let enhBlocks = shadowBox.shadowRoot.querySelectorAll(".js-enh");
+  let closeBtns = shadowBox.shadowRoot.querySelectorAll(".js-close-modal");
 
   query_field.addEventListener("input", inputHandler, {capture: false, composed: false});
   query_field.focus();
 
   enhBlocks.forEach((enhBlock) => {
     enhBlock.addEventListener("click", handleEnter);
-  })
+  });
+  closeBtns.forEach((enhBlock) => {
+    enhBlock.addEventListener("click", closeModal);
+  });
   chrome.runtime.onMessage.addListener(handle_response);
 
 })
@@ -160,11 +164,16 @@ async function handleEnter(e){
     `[${enhAction}](${enhUrl})`
   )
   await navigator.clipboard.writeText(snippet);
+
+  closeModal();
+}
+
+function closeModal(){
   let dialog = document.getElementById("find-enhancement");
   if (dialog){
     dialog.classList.add("hide");
   }
-
+  // FIXME cleanup input and search results
 }
 
 async function inputHandler(e){
