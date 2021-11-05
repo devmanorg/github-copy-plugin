@@ -121,6 +121,17 @@ let openDialog = (async function(){
     let dialog = document.createElement("div");
     dialog.classList.add("modal");
     dialog.innerHTML = modal_dialog;
+
+    async function handleKeyUp(event) {
+      if (event.code == 'Escape'){
+        closeModal();
+      }
+    }
+
+    shadowRoot.addEventListener('keyup', handleKeyUp, {
+      capture: false,
+    });
+
     shadowRoot.append(dialog);
     document.body.append(shadowBox);
   }
