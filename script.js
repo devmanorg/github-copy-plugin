@@ -26,7 +26,7 @@ function initGitHub(){
     if (event.ctrlKey && event.code == 'KeyQ'){
       event.preventDefault();
 
-      await openDialog();
+      await dialog.openDialog();
     }
   }
 

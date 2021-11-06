@@ -87,7 +87,7 @@ let modal_dialog = `
           <input type="text" id="common-error-search" tabindex="1" class="form-control" autocomplete="off"/>
             <kbd class="bg-transparent text-muted">Enter</kbd>, чтобы выбрать улучшение. Для поиска по тегу начните название с собаки <code>@</code>.
       </div>
-      <div id="tags-available" style="min-width: 150px;">
+      <div id="enhancement-container" style="min-width: 150px;">
       </div>
     </div>
   </div>
@@ -96,104 +96,102 @@ let modal_dialog = `
 
 function createEnhBlock(title, url){
   let enhBlock = document.createElement("div");
-  let enhTemplate = `<button class="js-enh" type="button" tabindex="2" url="${url}">
-    <h6>${title}</h6></button>`;
+  let enhTemplate = `
+    <button class="js-enh" type="button" tabindex="2" data-url="${url}">
+      <h6>${title}</h6>
+    </button>
+  `;
   enhBlock.innerHTML = enhTemplate;
   return enhBlock;
 }
 
-let openDialog = (async function(){
-  let shadowBox = document.getElementById("find-enhancement")
-  if (shadowBox) {
-    shadowBox.classList.toggle("hide");
-    let query_field = shadowBox.shadowRoot.querySelector("#common-error-search");
-    query_field.focus();
-    return;
-  }
-  else {
-    shadowBox = document.createElement("div");
-    shadowBox.id = "find-enhancement";
-    // Добавлен для обхода обработки горячих клавиш на GitHub
-    // GitHub перехватывает событие keydown
-    // Игнорирует если target - select, input, textarea, editable
-    shadowBox.contentEditable = "true";
-    let shadowRoot = shadowBox.attachShadow({mode: 'open'});
-    let dialog = document.createElement("div");
-    dialog.classList.add("modal");
-    dialog.innerHTML = modal_dialog;
+function createDialog(){
+  shadowBox = document.createElement("div");
+  shadowBox.id = "find-enhancement";
+  // Добавлен для обхода обработки горячих клавиш на GitHub
+  // GitHub перехватывает событие keydown
+  // Игнорирует если target - select, input, textarea, editable
+  shadowBox.contentEditable = "true";
+  let shadowRoot = shadowBox.attachShadow({mode: 'open'});
+  let dialog = document.createElement("div");
+  dialog.classList.add("modal");
+  dialog.innerHTML = modal_dialog;
+  shadowRoot.append(dialog);
 
-    async function handleKeyUp(event) {
-      if (event.code == 'Escape'){
-        closeModal();
-      }
+  let inputEl = shadowRoot.getElementById("common-error-search");
+  inputEl.addEventListener("input", handleInput, {capture: false, composed: false});
+
+  let enhancementContainer = shadowRoot.getElementById('enhancement-container');
+
+  function closeDialog(){
+    shadowBox.classList.add("hide");
+    inputEl.value = '';
+    enhancementContainer.innerHTML = "";
+  }
+
+  async function handleKeyUp(event) {
+    if (event.code == 'Escape'){
+      closeDialog();
     }
-
-    shadowRoot.addEventListener('keyup', handleKeyUp, {
-      capture: false,
-    });
-
-    shadowRoot.append(dialog);
-    document.body.append(shadowBox);
   }
 
-  let query_field = shadowBox.shadowRoot.querySelector("#common-error-search");
-  let enhBlocks = shadowBox.shadowRoot.querySelectorAll(".js-enh");
-  let closeBtns = shadowBox.shadowRoot.querySelectorAll(".js-close-modal");
-
-  query_field.addEventListener("input", inputHandler, {capture: false, composed: false});
-  query_field.focus();
-
-  enhBlocks.forEach((enhBlock) => {
-    enhBlock.addEventListener("click", handleEnter);
+  shadowRoot.addEventListener('keyup', handleKeyUp, {
+    capture: false,
   });
-  closeBtns.forEach((enhBlock) => {
-    enhBlock.addEventListener("click", closeModal);
+
+  shadowRoot.querySelectorAll(".js-close-modal").forEach(closeBtn => {
+    closeBtn.addEventListener("click", closeDialog);
   });
-  chrome.runtime.onMessage.addListener(handle_response);
 
-})
-
-async function handle_response (message, sender, sendResponse){
-  let domain = message.domain;
-  let enhancements = message.enhancements;
-  let shadowBox = document.querySelector("#find-enhancement");
-  let enhancements_block = shadowBox.shadowRoot.querySelector("#tags-available");
-  enhancements_block.innerHTML = "";
-  enhancements.forEach(function (enhancement, i ,enhancements){
-    let enhBlock = createEnhBlock(enhancement["text"], domain + enhancement["url"]);
-    enhBlock.querySelector("button").addEventListener("click", handleEnter);
-    enhancements_block.append(enhBlock);
-  })
-  return true;
-}
-
-async function handleEnter(e){
-  e.preventDefault();
-
-  let enhAction = this.querySelector("h6").innerText;
-  let enhUrl = this.getAttribute("url");
-
-  let snippet = (
-    `[${enhAction}](${enhUrl})`
-  )
-  await navigator.clipboard.writeText(snippet);
-
-  closeModal();
-}
-
-function closeModal(){
-  let dialog = document.getElementById("find-enhancement");
-  if (dialog){
-    dialog.classList.add("hide");
+  function openDialog(){
+    shadowBox.classList.toggle("hide", false);
+    inputEl.focus();
   }
-  // FIXME cleanup input and search results
-}
 
-async function inputHandler(e){
-  e.preventDefault();
-  let query = e.target.value
-  let enhancements = document.getElementById('tags-available');
-  if (query.length >= 3){
-    chrome.runtime.sendMessage({ msg: "getEnhancement", query: query });
+  async function handleMessage(message, sender, sendResponse){
+    let domain = message.domain;
+    let enhancements = message.enhancements;
+
+    enhancementContainer.innerHTML = "";
+    enhancements.forEach((enhancement, i ,enhancements) => {
+      let enhBlock = createEnhBlock(enhancement["text"], domain + enhancement["url"]);
+      enhBlock.querySelector("button").addEventListener("click", handleEnter);
+      enhancementContainer.append(enhBlock);
+    })
+    return true;
+  }
+
+  async function handleEnter(e){
+    e.preventDefault();
+
+    let enhAction = this.querySelector("h6").innerText;
+
+    let snippet = (
+      `[${enhAction}](${this.dataset.url})`
+    )
+    await navigator.clipboard.writeText(snippet);
+
+    closeDialog();
+  }
+
+  async function handleInput(e){
+    e.preventDefault();
+    let query = e.target.value
+    if (query.length >= 3){
+      chrome.runtime.sendMessage({ msg: "getEnhancement", query: query });
+    }
+  }
+
+  closeDialog();
+
+  document.body.append(shadowBox);
+  chrome.runtime.onMessage.addListener(handleMessage);
+  return {
+    shadowBox,
+    shadowRoot,
+    openDialog,
+    closeDialog,
   }
 }
+
+const dialog = createDialog();
