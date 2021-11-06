@@ -62,11 +62,13 @@ async function handleMessage(message, sender, sendResponse) {
 const FULL_TEXT_SEARCH_MIN_WORD_SIZE = 4;
 
 const searchableWordRegExp = new XRegExp(
-  `@?                # tag name prefix
-   [\\pL\\d]         # first unicode letter
-   [\\pL\\-\\.\\d]*  # anything
-   [\\pL\\d]         # last unicode letter
-  `, 'x');
+  `
+    [\\pL\\d]         # first unicode letter
+    [\\pL\\-\\.\\d]*  # anything
+    [\\pL\\d]         # last unicode letter
+  `,
+  'x',
+);
 
 function splitTextBySearchableWords(text, minLength = FULL_TEXT_SEARCH_MIN_WORD_SIZE) {
   // XRegExp adds cyrillic support
@@ -83,7 +85,14 @@ function splitTextBySearchableWords(text, minLength = FULL_TEXT_SEARCH_MIN_WORD_
 
 function splitQueryByWords(text) {
   // XRegExp adds cyrillic support
-  const unicodeWordRegExp = new XRegExp('[\\pL\\d][\\pL\\d\\-\\.]*');
+  const unicodeWordRegExp = new XRegExp(
+    `
+      @?                # tag name prefix
+      [\\pL\\d]
+      [\\pL\\d\\-\\.]*
+    `,
+    'x',
+  );
   let words = [];
   XRegExp.forEach(text, unicodeWordRegExp, (match, i) => {
     words.push(match[0]);
@@ -109,7 +118,7 @@ function splitByTagsAndRest(queryWords, availableTags) {
     selectedTags.add(tags[0]);
     excludedWords.add(queryWord);
   }
-  
+
   let searchableWords = _.difference(queryWords, Array.from(excludedWords));
   return [
     Array.from(selectedTags),
