@@ -36,6 +36,7 @@ var copyMarkdownSnippetFromGithub = (function(){ // ES6 modules are not supporte
       link = cleanOctotreeLinkGarbage(window.location.href);
       [fileURL, linesCode] = link.split('#');
       filePath = fileURL.split(/\/[a-z0-9]{40,}\//)[1] || 'README';
+      filePath = filePath.split('?')[0];
     }
 
     if (filePath.length > 40){
