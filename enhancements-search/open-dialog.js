@@ -1,8 +1,5 @@
 let modal_dialog = `
 <style>
-  .hide{
-      display: none;
-  }
   .modal{
       /*display: none;*/
       z-index: 2147483647;  /* max possible value */
@@ -124,7 +121,7 @@ function createDialog(){
   let enhancementContainer = shadowRoot.getElementById('enhancement-container');
 
   function closeDialog(){
-    shadowBox.classList.add("hide");
+    shadowBox.toggleAttribute("hidden", true);
     inputEl.value = '';
     enhancementContainer.innerHTML = "";
   }
@@ -144,7 +141,7 @@ function createDialog(){
   });
 
   function openDialog(){
-    shadowBox.classList.toggle("hide", false);
+    shadowBox.toggleAttribute("hidden", false);
     inputEl.focus();
   }
 

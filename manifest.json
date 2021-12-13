@@ -19,7 +19,6 @@
             ],
             "run_at": "document_idle",
             "all_frames": true,
-            "css": ["enhancements-search/enhancements.css"],
             "js": [
                 "text-tools.js",
                 "animations.js",
