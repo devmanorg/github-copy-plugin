@@ -121,7 +121,7 @@ function createDialog(){
   let enhancementContainer = shadowRoot.getElementById('enhancement-container');
 
   function closeDialog(){
-    shadowBox.toggleAttribute("hidden", true);
+    dialog.toggleAttribute("hidden", true);
     inputEl.value = '';
     enhancementContainer.innerHTML = "";
   }
@@ -141,7 +141,7 @@ function createDialog(){
   });
 
   function openDialog(){
-    shadowBox.toggleAttribute("hidden", false);
+    dialog.toggleAttribute("hidden", false);
     inputEl.focus();
   }
 
