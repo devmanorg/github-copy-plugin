@@ -25,6 +25,7 @@
                 "sites/github.com.js",
                 "sites/repl.it.js",
                 "sites/noname.js",
+                "sites/bitbucket.org.js",
                 "script.js",
                 "enhancements-search/open-dialog.js"
             ]

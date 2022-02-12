@@ -41,6 +41,21 @@ function initGitHub(){
   });
 }
 
+function initBitbucket(){
+  async function handleKeyUp(event) {
+    if (event.altKey && event.code == 'KeyC'){ // Latin or Cyrillic key C
+      event.preventDefault();
+      event.stopPropagation();
+
+      await wrapWithErrorsHandler(copyMarkdownSnippetFromBitbucket)(event.shiftKey);
+    }
+  }
+
+  document.addEventListener('keyup', handleKeyUp, {
+    capture: false,
+  });
+}
+
 function initReplIt(){
   async function handleKeyUp(event) {
     if (event.altKey && event.code == 'KeyC'){ // Latin or Cyrillic key C
@@ -77,6 +92,9 @@ if (window.location.host == 'github.com'){
 } else if (window.location.host == 'repl.it' || window.location.host == 'replit.com'){
   console.log('CopyPlugin: Repl.it detected');
   initReplIt();
+} else if (window.location.host == 'bitbucket.org'){
+  console.log('CopyPlugin: Bitbucket detected');
+  initBitbucket();
 } else {
   console.log('CopyPlugin: Unknown site, so activate default behaviour');
   initNonameSite();
