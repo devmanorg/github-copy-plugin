@@ -2,7 +2,7 @@
     "name": "Devman Review Snippet",
     "version": "1.0",
     "description": "Copy code and format for review on Devman site.",
-    "manifest_version": 2,
+    "manifest_version": 3,
 
     "permissions": [
         "activeTab",
@@ -32,11 +32,7 @@
         }
     ],
     "background": {
-      "scripts": [
-        "external-libraries/xregexp-all.js",
-        "external-libraries/lodash.min.js",
-        "enhancements-search/search.js"
-      ],
-      "persistent": false
+      "service_worker": "service_worker.js",
+      "type": "module"
     }
 }
