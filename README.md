@@ -35,7 +35,3 @@ def serialize_post(post): Svg Vector Icons : http://www.onlinewebfonts.com/icon
 ## Как подключить
 
 Код оформлен в виде расширения к браузеру Chrome. Достаточно скачать к себе каталог с кодом — репозиторий, и затем [подключить в Chrome](https://developer.chrome.com/extensions/getstarted).
-
-## Особенности реализации
-
-В коде не используются ES-модули, хотя явно напрашиваются. Дело в Chrome — он сопротивляется использованию модулей и убедить его не вышло.
