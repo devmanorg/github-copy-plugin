@@ -18,14 +18,19 @@ var copyMarkdownSnippetFromGithub = (function(){ // ES6 modules are not supporte
     }
   }
 
+  function convertLineElToText(lineEl){
+    let spans = lineEl.querySelectorAll('span');
+    let textFragments = Array.prototype.map.call(spans, span => span.getAttribute('data-code-text'))
+    return textFragments.join('')
+  }
+
   function readHighlightedLines(){
     // Read code lines highlighted on GitHub page, return multiline string
     let lines = document.querySelectorAll('.js-file-line-container .js-file-line.highlighted');
     if (lines.length === 0) {
       lines = document.querySelectorAll('div[aria-current]');
     }
-    const map = Array.prototype.map;
-    const codeLines = map.call(lines, line => line.innerText);
+    const codeLines = Array.prototype.map.call(lines, convertLineElToText);
     return codeLines.join('\n');
   }
 
