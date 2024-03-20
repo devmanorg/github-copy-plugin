@@ -86,13 +86,13 @@ function initNonameSite(){
   });
 }
 
-if (window.location.host == 'github.com'){
+if (window.location.host === 'github.com'){
   console.log('CopyPlugin: GitHub detected');
   initGitHub();
-} else if (window.location.host == 'repl.it' || window.location.host == 'replit.com'){
+} else if (window.location.host === 'repl.it' || window.location.host === 'replit.com'){
   console.log('CopyPlugin: Repl.it detected');
   initReplIt();
-} else if (window.location.host == 'bitbucket.org'){
+} else if (window.location.host === 'bitbucket.org'){
   console.log('CopyPlugin: Bitbucket detected');
   initBitbucket();
 } else {

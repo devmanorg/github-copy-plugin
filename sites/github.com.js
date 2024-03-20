@@ -55,10 +55,16 @@ var copyMarkdownSnippetFromGithub = (function(){ // ES6 modules are not supporte
       filePath = `…${filePath.substring(startIndex)}`;
     }
 
-    let selection = window.getSelection();
-    let selectionText = selection.toString();
-    let codeLinesAreSelected = Boolean(linesCode) && !selectionText; // selection has priority
-    let reviewLink = selectionText && fileURL || link;
+    let selection = document.getSelection().toString();
+    if (!selection) {
+      selection = document.activeElement.value.substring(
+        document.activeElement.selectionStart,
+        document.activeElement.selectionEnd
+      )
+    }
+
+    let codeLinesAreSelected = Boolean(linesCode) && !selection; // selection has priority
+    let reviewLink = selection && fileURL || link;
     let positionSuffix = '';
     if (codeLinesAreSelected){
       let match = linesCode.match(/\d+/);
@@ -76,10 +82,9 @@ var copyMarkdownSnippetFromGithub = (function(){ // ES6 modules are not supporte
       );
     } else {
       let codeSnippet = '';
-
       // copy code
-      if (selectionText) {
-        codeSnippet = selectionText;
+      if (selection) {
+        codeSnippet = selection;
       } else if (codeLinesAreSelected){
         codeSnippet = readHighlightedLines();
       } else {
@@ -104,7 +109,7 @@ var copyMarkdownSnippetFromGithub = (function(){ // ES6 modules are not supporte
     await navigator.clipboard.writeText(markdownSnippet);
 
     // Show which snippet was copied
-    if (selectionText){
+    if (selection){
       await highlightSelection();
     } else if (codeLinesAreSelected){
       await highlightGitHubSeletedLines();

@@ -56,7 +56,6 @@ var copyMarkdownSnippetFromReplIt = (function(){ // ES6 modules are not supporte
           `Файл [${filePath}](${link}).\n`
       );
     } else {
-
       document.execCommand("copy"); // getSelection returns truncated text for large code snippets
       let codeSnippet = await navigator.clipboard.readText();
 
