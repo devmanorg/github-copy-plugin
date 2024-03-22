@@ -24,4 +24,4 @@
 
 ## Не в релизе
 
-- Исправлена работа плагина в Firefox, issue #13
+- Исправлена работа плагина в Firefox, [issue #13](https://github.com/devmanorg/github-copy-plugin/issues/13)
