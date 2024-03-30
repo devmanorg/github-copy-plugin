@@ -51,7 +51,7 @@ var copyMarkdownSnippetFromBitbucket = (function(){ // ES6 modules are not suppo
       }
 
       let selection = document.getSelection().toString();
-      if (!selection) {
+      if (document.activeElement.value && !selection) {
         selection = document.activeElement.value.substring(
           document.activeElement.selectionStart,
           document.activeElement.selectionEnd

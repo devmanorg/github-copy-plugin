@@ -26,3 +26,4 @@
 
 - Исправлена работа плагина в Firefox, [issue #13](https://github.com/devmanorg/github-copy-plugin/issues/13)
 - Скрыт контейнер плагина, [issue #15](https://github.com/devmanorg/github-copy-plugin/issues/15)
+- Добавляет условие на выделенный текст, [issue #20](https://github.com/devmanorg/github-copy-plugin/issues/20)

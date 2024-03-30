@@ -56,7 +56,8 @@ var copyMarkdownSnippetFromGithub = (function(){ // ES6 modules are not supporte
     }
 
     let selection = document.getSelection().toString();
-    if (!selection) {
+
+    if (document.activeElement.value && !selection) {
       selection = document.activeElement.value.substring(
         document.activeElement.selectionStart,
         document.activeElement.selectionEnd
