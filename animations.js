@@ -3,7 +3,7 @@ function sleep(ms) {
 }
 
 async function highlightElement(element){
-  element.style['backgroundColor'] = '#badbcc';
+  element.style.setProperty('background-color', '#badbcc', 'important');
 
   await sleep(50);
 
