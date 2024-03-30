@@ -27,3 +27,5 @@
 - Исправлена работа плагина в Firefox, [issue #13](https://github.com/devmanorg/github-copy-plugin/issues/13)
 - Скрыт контейнер плагина, [issue #15](https://github.com/devmanorg/github-copy-plugin/issues/15)
 - Добавляет условие на выделенный текст, [issue #20](https://github.com/devmanorg/github-copy-plugin/issues/20)
+- Исправлена подсветка синтаксиса в Replit, [issue #21](https://github.com/devmanorg/github-copy-plugin/issues/21)
+- Исправлена инструкция для запуска в firefox, [issue #19](https://github.com/devmanorg/github-copy-plugin/issues/19)
