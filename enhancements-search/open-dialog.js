@@ -105,6 +105,7 @@ function createEnhBlock(title, url){
 function createDialog(){
   shadowBox = document.createElement("div");
   shadowBox.id = "find-enhancement";
+  shadowBox.style.display = "none";
   // Добавлен для обхода обработки горячих клавиш на GitHub
   // GitHub перехватывает событие keydown
   // Игнорирует если target - select, input, textarea, editable
