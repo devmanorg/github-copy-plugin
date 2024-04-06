@@ -29,3 +29,4 @@
 - Добавляет условие на выделенный текст, [issue #20](https://github.com/devmanorg/github-copy-plugin/issues/20)
 - Исправлена подсветка синтаксиса в Replit, [issue #21](https://github.com/devmanorg/github-copy-plugin/issues/21)
 - Исправлена инструкция для запуска в firefox, [issue #19](https://github.com/devmanorg/github-copy-plugin/issues/19)
+- Добавляет определения языка при копировании кода в gitlab, [issue #16](https://github.com/devmanorg/github-copy-plugin/issues/16)
