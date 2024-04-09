@@ -18,10 +18,17 @@ var copyMarkdownSnippetFromOtherSite = (function(){ // ES6 modules are not suppo
 
       let preparedCodeSnippet = prepareCodeSnippet(codeSnippet);
 
+      let syntax = '';
+
+      // disabled if .md file because it is rendered on GitHub as HTML, not markdown.
+      if (!pageName.endsWith('.md')){
+        syntax = detectSyntaxByFilename(pageName);
+      }
+
       markdownSnippet = (
         `${DELIMITER}\n`+
         `[_${pageName}_](${link})\n` +
-        `\`\`\`\n${preparedCodeSnippet}\n` +
+        `\`\`\`${syntax}\n${preparedCodeSnippet}\n` +
         `\`\`\`\n`
       )
     }
