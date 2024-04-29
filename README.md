@@ -46,3 +46,8 @@ def serialize_post(post): Svg Vector Icons : http://www.onlinewebfonts.com/icon
 4. найти и кликнуть на ссылку "Этот Firefox".
 5. кликнуть на кнопку "Загрузить временое дополнение".
 6. выбрать файл manifest.json внутри папки скаченного проекта.
+
+
+### Возможные ошибки
+
+1. Uncaught SyntaxError: Cannot use import statement outside a module - возникает из-за универсальности файла manifest.json, с этой ошибкой можно продолжать работу с плагином без проблем
