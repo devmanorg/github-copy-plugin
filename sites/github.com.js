@@ -19,18 +19,20 @@ var copyMarkdownSnippetFromGithub = (function(){ // ES6 modules are not supporte
   }
 
   function convertLineElToText(lineEl){
-    let spans = lineEl.querySelectorAll('span');
-    let textFragments = Array.prototype.map.call(spans, span => span.getAttribute('data-code-text'))
+    let lines = Array.from(lineEl.querySelector('.react-file-line').childNodes);
+    let textFragments = Array.prototype.map.call(lines, line => line.textContent)
     return textFragments.join('')
   }
 
   function readHighlightedLines(){
     // Read code lines highlighted on GitHub page, return multiline string
-    let lines = document.querySelectorAll('.js-file-line-container .js-file-line.highlighted');
-    if (lines.length === 0) {
-      lines = document.querySelectorAll('div[aria-current]');
+    let lines = Array.from(document.querySelectorAll('.highlighted-line'));
+    const numbers = lines.map(line => line.getAttribute('data-line-number'));
+    let texts = numbers.map(number => document.querySelector(`[data-key="${number - 1}"]`))
+    if (texts.length === 0) {
+      texts = document.querySelectorAll('div[aria-current]');
     }
-    const codeLines = Array.prototype.map.call(lines, convertLineElToText);
+    const codeLines = Array.prototype.map.call(texts, convertLineElToText);
     return codeLines.join('\n');
   }
 
