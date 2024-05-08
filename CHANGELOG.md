@@ -31,3 +31,4 @@
 - Исправлена инструкция для запуска в firefox, [issue #19](https://github.com/devmanorg/github-copy-plugin/issues/19)
 - Добавляет определения языка при копировании кода в gitlab, [issue #16](https://github.com/devmanorg/github-copy-plugin/issues/16)
 - Исправляет получение типа файла в ссылках с get параметрами, [issue #28](https://github.com/devmanorg/github-copy-plugin/issues/28)
+- Исправляет копирование строк в GitHub, [issue #30](https://github.com/devmanorg/github-copy-plugin/issues/30)
