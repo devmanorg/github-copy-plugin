@@ -19,7 +19,7 @@ var copyMarkdownSnippetFromGithub = (function(){ // ES6 modules are not supporte
   }
 
   function convertLineElToText(lineEl){
-    let lines = Array.from(lineEl.querySelector('.react-file-line').childNodes);
+    let lines = Array.from(lineEl.childNodes);
     let textFragments = Array.prototype.map.call(lines, line => line.textContent)
     return textFragments.join('')
   }
@@ -28,7 +28,7 @@ var copyMarkdownSnippetFromGithub = (function(){ // ES6 modules are not supporte
     // Read code lines highlighted on GitHub page, return multiline string
     let lines = Array.from(document.querySelectorAll('.highlighted-line'));
     const numbers = lines.map(line => line.getAttribute('data-line-number'));
-    let texts = numbers.map(number => document.querySelector(`[data-key="${number - 1}"]`))
+    let texts = numbers.map(number => document.querySelector(`[id="LC${number}"]`))
     if (texts.length === 0) {
       texts = document.querySelectorAll('div[aria-current]');
     }
