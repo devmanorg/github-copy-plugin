@@ -9,7 +9,7 @@ var copyMarkdownSnippetFromGithub = (function(){ // ES6 modules are not supporte
   }
 
   async function highlightGitHubSeletedLines(){
-    let lines = document.querySelectorAll('.js-file-line.highlighted');
+    let lines = findSelectedLines();
     if (lines.length === 0) {
       lines = document.querySelectorAll('div[aria-current]');
     }
@@ -24,11 +24,15 @@ var copyMarkdownSnippetFromGithub = (function(){ // ES6 modules are not supporte
     return textFragments.join('')
   }
 
-  function readHighlightedLines(){
-    // Read code lines highlighted on GitHub page, return multiline string
+  function findSelectedLines() {
     let lines = Array.from(document.querySelectorAll('.highlighted-line'));
     const numbers = lines.map(line => line.getAttribute('data-line-number'));
-    let texts = numbers.map(number => document.querySelector(`[id="LC${number}"]`))
+    return numbers.map(number => document.querySelector(`[id="LC${number}"]`));
+  }
+
+  function readHighlightedLines(){
+    // Read code lines highlighted on GitHub page, return multiline string
+    let texts = findSelectedLines();
     if (texts.length === 0) {
       texts = document.querySelectorAll('div[aria-current]');
     }
