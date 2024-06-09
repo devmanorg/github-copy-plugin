@@ -26,6 +26,9 @@
 
 ...
 
+## [1.2.0] - 2024-06-09
+
+- Исправлено копирование кода на GitHub через выделение строк [issue #30](https://github.com/devmanorg/github-copy-plugin/issues/30)
 
 ## [1.1] - 2024-05-08
 
