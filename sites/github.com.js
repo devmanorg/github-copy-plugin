@@ -81,6 +81,10 @@ var copyMarkdownSnippetFromGithub = (function(){ // ES6 modules are not supporte
       }
     }
 
+    if (filePath.endsWith('.md')){
+      reviewLink = reviewLink.replace('?plain=1', '').replace('#', '?plain=1#');
+    }
+
     let markdownSnippet = '';
     if (quitMode){
       markdownSnippet = (
