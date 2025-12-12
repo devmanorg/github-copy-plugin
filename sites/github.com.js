@@ -81,7 +81,7 @@ var copyMarkdownSnippetFromGithub = (function(){ // ES6 modules are not supporte
       }
     }
 
-    if (filePath.endsWith('.md')){
+    if (filePath.toLowerCase().endsWith('.md')){
       reviewLink = reviewLink.replace('?plain=1', '').replace('#', '?plain=1#');
     }
 
@@ -106,7 +106,7 @@ var copyMarkdownSnippetFromGithub = (function(){ // ES6 modules are not supporte
       let syntax = '';
 
       // disabled if .md file because it is rendered on GitHub as HTML, not markdown.
-      if (!filePath.endsWith('.md')){
+      if (!filePath.toLowerCase().endsWith('.md')){
         syntax = detectSyntaxByFilename(filePath);
       }
 
